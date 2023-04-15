@@ -36,7 +36,8 @@ endLine = \r|\n|\r\n
 identificador = [:letter:] + ([:letter:] | [:digit:] | "_")*
 inteiro = [:digit:]+
 decimal = [:digit:]* + "." + [:digit:]+
-caracter = "\'" + [:letter:]* + "\'" | "\'" [^\\'] "\'" | "\'\\n\'" | "\'\\t\'" | "\'\\b\'" | "\'\\r\'" | "\'\\\\\'" | "\'\\\'\'" 
+caracter = "\'" + [:letter:]* + "\'" | "\'" [^\\'] "\'" | "\'\\n\'" | "\'\\t\'" | "\'\\b\'" | "\'\\r\'" | "\'\\\\\'" | "\'\\\'\'"
+string = \"(\\.|[^\"])*\"
 
 %state SINGLELINECOMMENT
 %state MULTLINECOMMENT
@@ -85,6 +86,7 @@ caracter = "\'" + [:letter:]* + "\'" | "\'" [^\\'] "\'" | "\'\\n\'" | "\'\\t\'" 
     {inteiro}  {return symbol(TokenType.INT, Integer.parseInt(yytext())); }
     {decimal}  {return symbol(TokenType.FLOAT, Float.parseFloat(yytext())); }
     {caracter}  {return symbol(TokenType.CHAR, yytext().substring(1,yytext().length()-1)); }
+    {string}  {return symbol(TokenType.STRING, yytext().substring(1,yytext().length()-1)); }
     {identificador}  { return symbol(TokenType.ID, yytext()); }
     "--"  { yybegin(SINGLELINECOMMENT); }
     "{-"  { yybegin(MULTLINECOMMENT); }

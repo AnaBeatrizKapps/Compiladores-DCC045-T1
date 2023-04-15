@@ -15,6 +15,7 @@ public enum TokenType {
     INT,
     FLOAT,
     CHAR,
+    STRING,
     IDINT,
     IDFLOAT,
     IDCHAR,
